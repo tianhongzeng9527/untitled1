@@ -54,7 +54,7 @@ public class UserDataInformation {
     private String htmlContent;
     private String schoolMessage;
     private List<String> keyWords;
-    private boolean isNormalMessage;
+    public boolean isNormalMessage;
     private final static int messageLength = 18;
     private final static int keyNum = 5;
     private Type type;
@@ -62,9 +62,9 @@ public class UserDataInformation {
     private TitleKeyWords titleKeyWords;
     private List<String> containsSensitiveWordsList;
     private Map<String, Integer> keyWordsType;
-    private final static double similarScoreLine = 0.5;
+    private final static double similarScoreLine = -0.5;
     private String category;
-    private final static int layer = 2;
+    private final static int layer = 1;
 
     public UserDataInformation(String userDataInformation) throws IOException {
         String[] splits = userDataInformation.split(" ");
@@ -1072,13 +1072,12 @@ public class UserDataInformation {
     }
 
     public void sensitiveClassify() {
-        System.out.println(containsSensitiveWordsList.size());
         if (containsSensitiveWordsList.size() > sensitiveWordNum) {
             this.type = Type.sensitive;
         }
     }
 
-    public void commonClassify() throws IOException {
+    public void commonClassify() throws IOException, JSONException, InterruptedException {
         keyWordsType = new HashMap<>();
         JSONObject categoryJsonObject = Category.category;
         for (int i = 0; i < layer; ) {
@@ -1089,7 +1088,7 @@ public class UserDataInformation {
                     String tempCategory = (String) iterable.next();
                     double score = 0;
                     score = similarScore(keyWord, tempCategory);
-                    if (score > maxScore && score > similarScoreLine) {
+                    if (score >= maxScore && score > similarScoreLine) {
                         category = tempCategory;
                         maxScore = score;
                     }
@@ -1115,19 +1114,19 @@ public class UserDataInformation {
         }
     }
 
-    private double similarScore(String word, String type) throws IOException {
+    private double similarScore(String word, String type) throws IOException, InterruptedException {
         double score = 0;
         URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
         URLConnection urlcon = url.openConnection();
         InputStream is = urlcon.getInputStream();
         BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
-        score = Double.valueOf(buffer.readLine());
+        String s = buffer.readLine();
+        score = Double.valueOf(s);
         buffer.close();
         return score;
     }
 
     public String toString() {
-        System.out.println(this.type);
         if (category != "zaoyin")
             return schoolMessage + " 1" + category;
         else if (this.type != Type.sensitive)
@@ -1138,15 +1137,16 @@ public class UserDataInformation {
                 stringBuilder.append(s);
                 stringBuilder.append(" ");
             }
-            return "zaoyin" + reqIP + " " + stringBuilder + reqTime;
+            return "zaoyin" + reqIP + " " + stringBuilder + reqTime + category;
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, JSONException, InterruptedException {
         String s = "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 数学家 tianhongzeng";
         UserDataInformation userDataInformation = new UserDataInformation(s);
         userDataInformation.sensitiveClassify();
-        System.out.println(userDataInformation.similarScore("数学", "几何"));
+        System.out.println(userDataInformation.similarScore("数学", "一部分"));
+        userDataInformation.commonClassify();
         System.out.print(userDataInformation.toString());
     }
 }

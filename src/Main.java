@@ -3,6 +3,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.*;
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -47,10 +48,21 @@ public class Main {
 //                output.collect(word, one);
 //            }
             UserDataInformation userDataInformation = new UserDataInformation(line);
-            userDataInformation.sensitiveClassify();
-            userDataInformation.commonClassify();
-            word.set(userDataInformation.toString());
-            output.collect(word, one);
+            if(!userDataInformation.isNormalMessage)
+                output.collect(new Text(line),one);
+            else{
+                System.out.println(line);
+                userDataInformation.sensitiveClassify();
+                try {
+                    userDataInformation.commonClassify();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                word.set(userDataInformation.toString());
+                output.collect(word, one);
+            }
         }
     }
 
