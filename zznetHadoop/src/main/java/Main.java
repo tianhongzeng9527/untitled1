@@ -48,7 +48,7 @@ public class Main {
 //                word.set(tokenizer.nextToken());
 //                output.collect(word, one);
 //            }
-            usrhandle.UserDataInformation userDataInformation = new UserDataInformation(line);
+            UserDataInformation userDataInformation = new UserDataInformation(line);
             if(!userDataInformation.isNormalMessage)
                 output.collect(new Text(line),one);
             else{

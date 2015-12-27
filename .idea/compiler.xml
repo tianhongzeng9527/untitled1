@@ -23,10 +23,14 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="zznetHadoop" />
+        <module name="zznetHadoop1.1" />
+        <module name="zznethadoop1.2" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="zznetHadoop" target="1.5" />
+      <module name="zznetHadoop1.1" target="1.5" />
+      <module name="zznethadoop1.2" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

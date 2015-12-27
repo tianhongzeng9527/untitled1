@@ -1,3 +1,5 @@
+package urlhandle;
+
 import com.chenlb.mmseg4j.analysis.ComplexAnalyzer;
 import com.chenlb.mmseg4j.analysis.TokenUtils;
 import org.apache.log4j.Logger;

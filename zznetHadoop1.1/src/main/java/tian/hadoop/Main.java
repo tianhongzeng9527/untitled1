@@ -1,13 +1,16 @@
+package tian.hadoop;
+
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.*;
 import org.json.JSONException;
-import usrhandle.UserDataInformation;
+import tian.userhandle.UserDataInformation;
 
 import java.io.IOException;
 import java.util.Iterator;
+
 
 /**
  * 描述：WordCount explains by Felix
@@ -48,7 +51,7 @@ public class Main {
 //                word.set(tokenizer.nextToken());
 //                output.collect(word, one);
 //            }
-            usrhandle.UserDataInformation userDataInformation = new UserDataInformation(line);
+            UserDataInformation userDataInformation = new UserDataInformation(line);
             if(!userDataInformation.isNormalMessage)
                 output.collect(new Text(line),one);
             else{

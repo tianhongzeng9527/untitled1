@@ -1,12 +1,10 @@
+package tian.userhandle;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+import tian.htmlhandle.TitleKeyWords;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1078,7 +1076,7 @@ public class UserDataInformation {
     }
 
     public void commonClassify() throws IOException, JSONException, InterruptedException {
-        keyWordsType = new HashMap<>();
+        keyWordsType = new HashMap<String, Integer>();
         JSONObject categoryJsonObject = Category.category;
         for (int i = 0; i < layer; ) {
             for (String keyWord : keyWords) {
@@ -1116,13 +1114,13 @@ public class UserDataInformation {
 
     private double similarScore(String word, String type) throws IOException, InterruptedException {
         double score = 0;
-        URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
-        URLConnection urlcon = url.openConnection();
-        InputStream is = urlcon.getInputStream();
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
-        String s = buffer.readLine();
-        score = Double.valueOf(s);
-        buffer.close();
+//        URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
+//        URLConnection urlcon = url.openConnection();
+//        InputStream is = urlcon.getInputStream();
+//        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+//        String s = buffer.readLine();
+//        score = Double.valueOf(s);
+//        buffer.close();
         return score;
     }
 

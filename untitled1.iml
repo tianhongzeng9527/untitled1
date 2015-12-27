@@ -8,17 +8,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file:///usr/local/hadoop-2.7.1/share/hadoop/mapreduce" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file:///usr/local/hadoop-2.7.1/share/hadoop/mapreduce" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="library" exported="" name="hadoop-mapreduce-examples-2.7.1" level="project" />
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file:///usr/local/hadoop-2.7.1/share/hadoop/common" />
@@ -30,19 +21,8 @@
         <jarDirectory url="file:///usr/local/hadoop-2.7.1/share/hadoop/common" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="file:///usr/local/hadoop-2.7.1/share/hadoop/hdfs" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="file:///usr/local/hadoop-2.7.1/share/hadoop/hdfs/jdiff" />
-        </SOURCES>
-        <jarDirectory url="file:///usr/local/hadoop-2.7.1/share/hadoop/hdfs" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="library" exported="" name="hadoop-hdfs-2.7.1" level="project" />
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file:///usr/local/hadoop-2.7.1/share/hadoop/yarn" />
@@ -52,7 +32,7 @@
         <jarDirectory url="file:///usr/local/hadoop-2.7.1/share/hadoop/yarn" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file:///usr/local/hadoop-2.7.1/share/hadoop/common/lib" />

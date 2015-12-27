@@ -1,10 +1,12 @@
+package tian.hadoop;
+
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.*;
 import org.json.JSONException;
-import usrhandle.UserDataInformation;
+import tian.userhandle.UserDataInformation;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -48,7 +50,7 @@ public class Main {
 //                word.set(tokenizer.nextToken());
 //                output.collect(word, one);
 //            }
-            usrhandle.UserDataInformation userDataInformation = new UserDataInformation(line);
+            UserDataInformation userDataInformation = new UserDataInformation(line);
             if(!userDataInformation.isNormalMessage)
                 output.collect(new Text(line),one);
             else{
@@ -86,7 +88,7 @@ public class Main {
          * 构造方法：JobConf()、JobConf(Class exampleClass)、JobConf(Configuration conf)等
          */
         JobConf conf = new JobConf(Main.class);
-        conf.setJobName("zznet");           //设置一个用户定义的job名称
+        conf.setJobName("zzn");           //设置一个用户定义的job名称
         conf.setOutputKeyClass(Text.class);    //为job的输出数据设置Key类
         conf.setOutputValueClass(IntWritable.class);   //为job输出设置value类
         conf.setMapperClass(Map.class);         //为job设置Mapper类

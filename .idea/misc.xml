@@ -3,10 +3,15 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/zznetHadoop1.1" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/zznetHadoop/pom.xml" />
+        <option value="$PROJECT_DIR$/zznetHadoop1.1/pom.xml" />
+        <option value="$PROJECT_DIR$/zznethadoop1.2/pom.xml" />
       </list>
     </option>
   </component>
