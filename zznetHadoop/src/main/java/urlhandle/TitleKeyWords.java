@@ -7,6 +7,7 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.PackedTokenAttributeImpl;
 import org.jsoup.Jsoup;
+import tools.Constants;
 
 import java.io.*;
 import java.net.URL;
@@ -21,7 +22,7 @@ public class TitleKeyWords {
     private int topNum;
     private Map<String, Integer> contentParticiple;
     private List<String> topNumKey;
-    private String claenHtml;
+    private String claenHtml = "";
     private int timeout;
     private String title;
     private String content;
@@ -60,18 +61,16 @@ public class TitleKeyWords {
         title = Jsoup.parse(claenHtml).title();
     }
 
-    private void setClaenHtml() {
+    private void setClaenHtml() throws IOException {
         Readability readability;
-        try {
-            if ((this.html != null) && (!"".equals(html)))
-                readability = new Readability(html);
-            else
-                readability = new Readability(url, timeout);
+
+        if ((this.html != null) && (!"".equals(html)))
+            readability = new Readability(html);
+        else
+            readability = new Readability(url, timeout);
+        if (readability != null)
             readability.init();
-        } catch (IOException e) {
-            logger.info(e.toString());
-            return;
-        }
+
         claenHtml = readability.outerHtml();
     }
 
@@ -79,7 +78,7 @@ public class TitleKeyWords {
         content = Jsoup.parse(claenHtml).body().text();
     }
 
-    private void setContentParticiple() {
+    private void setContentParticiple() throws IOException {
         List<String> contentWords = toWords(content, new ComplexAnalyzer());
         for (String word : contentWords)
             if (!stopWordsDictionary.contains(word)) {
@@ -106,12 +105,12 @@ public class TitleKeyWords {
 //        } else if (supersitionWordsDictionary.contains(word)) {
 //            containsSupersitionWordsList.contains(word);
 //        }
-        if(sensitiveWordsDictionary.contains(word)){
+        if (sensitiveWordsDictionary.contains(word)) {
             containsSensitiveWordsList.add(word);
         }
     }
 
-    private List<String> toWords(String txt, Analyzer analyzer) {
+    private List<String> toWords(String txt, Analyzer analyzer) throws IOException {
         List<String> words = new ArrayList<String>();
         TokenStream ts = null;
         try {
@@ -122,6 +121,7 @@ public class TitleKeyWords {
             }
         } catch (IOException e) {
             logger.info(e.toString());
+            throw e;
         } finally {
             if (ts != null) {
                 try {
@@ -134,7 +134,7 @@ public class TitleKeyWords {
         return words;
     }
 
-    private void setTitleParticipleFrequency() {
+    private void setTitleParticipleFrequency() throws IOException {
         List<String> contentWords = toWords(title, new ComplexAnalyzer());
         for (String word : contentWords)
             if (!stopWordsDictionary.contains(word))
@@ -197,7 +197,7 @@ public class TitleKeyWords {
         claenHtml = "";
         contentParticiple = new TreeMap<String, Integer>();
         topNumKey = new ArrayList<String>();
-        timeout = 20000;
+        timeout = Constants.TIME_OUT;
         titleParticipleFrequency = new LinkedHashSet<String>();
         initStopWords();
         initSensitiveWordsDictionary();
