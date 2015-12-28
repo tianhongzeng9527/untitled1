@@ -42,17 +42,17 @@ public class Main {
                         OutputCollector<Text, IntWritable> output, Reporter reporter)
                 throws IOException {
             String line = value.toString();
-//            StringTokenizer tokenizer = new StringTokenizer(line);
-//            while (tokenizer.hasMoreTokens())
-//            {
-//                word.set(tokenizer.nextToken());
-//                output.collect(word, one);
-//            }
-            usrhandle.UserDataInformation userDataInformation = new UserDataInformation(line);
-            if(!userDataInformation.isNormalMessage)
-                output.collect(new Text(line),one);
-            else{
-                System.out.println(line);
+            usrhandle.UserDataInformation userDataInformation = null;
+            try {
+                userDataInformation = new UserDataInformation(line);
+            } catch (IOException e) {
+                e.printStackTrace();
+                output.collect(new Text("wrong" + line), one);
+                return;
+            }
+            if (!userDataInformation.isNormalMessage)
+                output.collect(new Text(line), one);
+            else {
                 userDataInformation.sensitiveClassify();
                 try {
                     userDataInformation.commonClassify();
