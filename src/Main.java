@@ -3,7 +3,8 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.*;
-import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import usrhandle.UserDataInformation;
 
 import java.io.IOException;
@@ -21,6 +22,8 @@ public class Main {
      * WritableComparable接口：实现WritableComparable的类可以相互比较。所有被用作key的类应该实现此接口。
      * Reporter 则可用于报告整个应用的运行进度，本例中未使用。
      */
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+
     public static class Map extends MapReduceBase implements
             Mapper<LongWritable, Text, Text, IntWritable> {
         /**
@@ -42,24 +45,28 @@ public class Main {
                         OutputCollector<Text, IntWritable> output, Reporter reporter)
                 throws IOException {
             String line = value.toString();
-            usrhandle.UserDataInformation userDataInformation = null;
+            System.out.println(line);
+            usrhandle.UserDataInformation userDataInformation;
             try {
                 userDataInformation = new UserDataInformation(line);
             } catch (IOException e) {
-                e.printStackTrace();
-                output.collect(new Text("wrong" + line), one);
+                logger.error(line + "init userDataInformation wrong{}", e);
+                output.collect(new Text("init userDataInformation wrong" + line), one);
                 return;
             }
-            if (!userDataInformation.isNormalMessage)
+            if (!userDataInformation.isNormalMessage){
+                logger.error(line + "receive message error ");
                 output.collect(new Text(line), one);
+                return;
+            }
             else {
                 userDataInformation.sensitiveClassify();
                 try {
                     userDataInformation.commonClassify();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    logger.error(line + "clsssify error{}", e);
+                    output.collect(new Text("classify wrong"), one);
+                    return;
                 }
                 word.set(userDataInformation.toString());
                 output.collect(word, one);
