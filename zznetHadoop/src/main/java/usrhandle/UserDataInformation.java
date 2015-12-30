@@ -5,8 +5,12 @@ import org.json.JSONObject;
 import tools.Constants;
 import urlhandle.TitleKeyWords;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -126,28 +130,29 @@ public class UserDataInformation {
                     keyWordsType.put(category, keyWordsType.get(category) + 1);
                 else
                     keyWordsType.put(category, 1);
-                int max = 0;
-                for (Map.Entry<String, Integer> entry : keyWordsType.entrySet()) {
-                    if (entry.getValue() > max) {
-                        category = entry.getKey();
-                        max = entry.getValue();
-                    }
-                }
-                if (++i < Constants.LAYER)
-                    categoryJsonObject = categoryJsonObject.getJSONObject(category);
             }
+            int max = 0;
+            for (Map.Entry<String, Integer> entry : keyWordsType.entrySet()) {
+                if (entry.getValue() > max) {
+                    category = entry.getKey();
+                    max = entry.getValue();
+                }
+            }
+            keyWordsType.clear();
+            if (++i < Constants.LAYER)
+                categoryJsonObject = categoryJsonObject.getJSONObject(category);
         }
     }
 
     private double similarScore(String word, String type) throws IOException, InterruptedException {
         double score = 0;
-//        URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
-//        URLConnection urlcon = url.openConnection();
-//        InputStream is = urlcon.getInputStream();
-//        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
-//        String s = buffer.readLine();
-//        score = Double.valueOf(s);
-//        buffer.close();
+        URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
+        URLConnection urlcon = url.openConnection();
+        InputStream is = urlcon.getInputStream();
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+        String s = buffer.readLine();
+        score = Double.valueOf(s);
+        buffer.close();
         return score;
     }
 

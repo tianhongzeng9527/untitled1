@@ -13,8 +13,14 @@ public class Category {
     static {
         try {
             category = new JSONObject("{\n" +
-                    "    \"total\": 5,\n" +
-                    "    \"rows\": 6\n" +
+                    "    \"数学\": {\n" +
+                    "        \"语文\": 1,\n" +
+                    "        \"英语\": 1\n" +
+                    "    },\n" +
+                    "    \"物理\": {\n" +
+                    "        \"化学\": 1,\n" +
+                    "        \"生物\": 1\n" +
+                    "    }\n" +
                     "}");
         } catch (JSONException e) {
             e.printStackTrace();
