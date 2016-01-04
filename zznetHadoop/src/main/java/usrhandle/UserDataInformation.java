@@ -5,12 +5,8 @@ import org.json.JSONObject;
 import tools.Constants;
 import urlhandle.TitleKeyWords;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,11 +58,12 @@ public class UserDataInformation {
     private Type type;
     private TitleKeyWords titleKeyWords;
     private List<String> containsSensitiveWordsList;
-    private String category;
+    private String normalCategory;
+    private String sensitiveCategory;
 
     public UserDataInformation(String userDataInformation) throws IOException {
         String[] splits = userDataInformation.split(" ");
-        category = Constants.NOISE;
+        normalCategory = Constants.NOISE;
         if (splits.length != Constants.MESSAGE_LENGTH) {
             isNormalMessage = false;
         } else {
@@ -74,6 +71,7 @@ public class UserDataInformation {
             initUserInformation(splits);
             initKeyWords();
             containsSensitiveWordsList = titleKeyWords.getContainsSensitiveWordsList();
+            sensitiveCategory = titleKeyWords.getSensitiveCategory();
         }
     }
 
@@ -116,59 +114,60 @@ public class UserDataInformation {
         for (int i = 0; i < Constants.LAYER; ) {
             for (String keyWord : keyWords) {
                 double maxScore = 0;
-                Iterator iterable = categoryJsonObject.keys();
-                while (iterable.hasNext()) {
-                    String tempCategory = (String) iterable.next();
+                Iterator iterate = categoryJsonObject.keys();
+                while (iterate.hasNext()) {
+                    String tempCategory = (String) iterate.next();
                     double score;
                     score = similarScore(keyWord, tempCategory);
                     if (score >= maxScore && score > Constants.SIMILAR_SCORE_LINE) {
-                        category = tempCategory;
+                        normalCategory = tempCategory;
                         maxScore = score;
                     }
                 }
-                if (keyWordsType.containsKey(category))
-                    keyWordsType.put(category, keyWordsType.get(category) + 1);
+                if (keyWordsType.containsKey(normalCategory))
+                    keyWordsType.put(normalCategory, keyWordsType.get(normalCategory) + 1);
                 else
-                    keyWordsType.put(category, 1);
+                    keyWordsType.put(normalCategory, 1);
             }
             int max = 0;
             for (Map.Entry<String, Integer> entry : keyWordsType.entrySet()) {
                 if (entry.getValue() > max) {
-                    category = entry.getKey();
+                    normalCategory = entry.getKey();
                     max = entry.getValue();
                 }
             }
             keyWordsType.clear();
             if (++i < Constants.LAYER)
-                categoryJsonObject = categoryJsonObject.getJSONObject(category);
+                categoryJsonObject = categoryJsonObject.getJSONObject(normalCategory);
         }
     }
 
     private double similarScore(String word, String type) throws IOException, InterruptedException {
         double score = 0;
-        URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
-        URLConnection urlcon = url.openConnection();
-        InputStream is = urlcon.getInputStream();
-        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
-        String s = buffer.readLine();
-        score = Double.valueOf(s);
-        buffer.close();
+//        URL url = new URL("http://192.168.20.9:8080/wordsDistance?word1=" + word + "&word2=" + type);
+//        URLConnection urlcon = url.openConnection();
+//        InputStream is = urlcon.getInputStream();
+//        BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+//        String s = buffer.readLine();
+//        score = Double.valueOf(s);
+//        buffer.close();
         return score;
     }
 
     public String toString() {
-        if (!category.equals(Constants.NOISE))
-            return schoolMessage + " 1" + category;
-        else if (this.type != Type.sensitive)
-            return schoolMessage + " 2" + "zaoyin";
-        else {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (String s : containsSensitiveWordsList) {
-                stringBuilder.append(s);
-                stringBuilder.append(" ");
-            }
-            return "zaoyin" + reqIP + " " + stringBuilder + reqTime + category;
-        }
+        return this.normalCategory+"  "+this.sensitiveCategory+"  "+this.containsSensitiveWordsList.toString();
+//        if (!normalCategory.equals(Constants.NOISE))
+//            return schoolMessage + " 1" + normalCategory;
+//        else if (this.type != Type.sensitive)
+//            return schoolMessage + " 2" + "zaoyin";
+//        else {
+//            StringBuilder stringBuilder = new StringBuilder();
+//            for (String s : containsSensitiveWordsList) {
+//                stringBuilder.append(s);
+//                stringBuilder.append(" ");
+//            }
+//            return "zaoyin" + reqIP + " " + stringBuilder + reqTime + normalCategory;
+//        }
     }
 
     public static void main(String[] args) throws IOException, JSONException, InterruptedException {

@@ -45,7 +45,6 @@ public class Main {
                         OutputCollector<Text, IntWritable> output, Reporter reporter)
                 throws IOException {
             String line = value.toString();
-            System.out.println(line);
             usrhandle.UserDataInformation userDataInformation;
             try {
                 userDataInformation = new UserDataInformation(line);
@@ -54,17 +53,16 @@ public class Main {
                 output.collect(new Text("init userDataInformation wrong" + line), one);
                 return;
             }
-            if (!userDataInformation.isNormalMessage){
+            if (!userDataInformation.isNormalMessage) {
                 logger.error(line + "receive message error ");
                 output.collect(new Text(line), one);
                 return;
-            }
-            else {
+            } else {
                 userDataInformation.sensitiveClassify();
                 try {
                     userDataInformation.commonClassify();
                 } catch (Exception e) {
-                    logger.error(line + "clsssify error{}", e);
+                    logger.error(line + "classify error{}", e);
                     output.collect(new Text("classify wrong"), one);
                     return;
                 }

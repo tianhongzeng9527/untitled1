@@ -76,7 +76,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/zznetHadoop1.1/target/zznetHadoop1.1-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/zznetHadoop1.1/target/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="zznetHadoop1.1/web/Web" />
     </root>

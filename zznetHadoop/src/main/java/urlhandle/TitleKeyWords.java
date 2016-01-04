@@ -8,6 +8,7 @@ import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.PackedTokenAttributeImpl;
 import org.jsoup.Jsoup;
 import tools.Constants;
+import usrhandle.SensitiveWord;
 
 import java.io.*;
 import java.net.URL;
@@ -28,7 +29,6 @@ public class TitleKeyWords {
     private String content;
     private Set<String> titleParticipleFrequency;
     private String html;
-    private static Set<String> sensitiveWordsDictionary;
     private static Set<String> stopWordsDictionary;
     private static Set<String> drugWordsDictionary;
     private static Set<String> illegalWordsDictionary;
@@ -42,8 +42,9 @@ public class TitleKeyWords {
     private List<String> containsPoliticalWordsList;
     private List<String> containsSexyWordsList;
     private List<String> containsSupersitionWordsList;
-    private List<String> containsSensitiveWordsList;
+    private List<String> containsSensitiveWordsList = new ArrayList<>();
     private static boolean isInitDictionary = true;
+    private String sensitiveCategory;
 
     private static Logger logger = Logger.getLogger(TitleKeyWords.class);
 
@@ -105,7 +106,7 @@ public class TitleKeyWords {
 //        } else if (supersitionWordsDictionary.contains(word)) {
 //            containsSupersitionWordsList.contains(word);
 //        }
-        if (sensitiveWordsDictionary.contains(word)) {
+        if (SensitiveWord.sensitiveWordList.contains(word)) {
             containsSensitiveWordsList.add(word);
         }
     }
@@ -200,7 +201,6 @@ public class TitleKeyWords {
         timeout = Constants.TIME_OUT;
         titleParticipleFrequency = new LinkedHashSet<String>();
         initStopWords();
-        initSensitiveWordsDictionary();
 //        initContainList();
         if (isInitDictionary) {
             isInitDictionary = false;
@@ -213,6 +213,29 @@ public class TitleKeyWords {
         setTitleParticipleFrequency();
         setTopNumKey();
         initContainsSensitiveWordsList();
+        initCategory();
+    }
+
+    private void initCategory() {
+        Map<String, Integer> categoryScore = new HashMap<>();
+        for (String sensitiveWord : containsSensitiveWordsList) {
+            String parents = SensitiveWord.sensitiveWordCorrespondParents.get(sensitiveWord);
+            if (categoryScore.containsKey(parents)) {
+                categoryScore.put(parents, categoryScore.get(parents) + 1);
+            } else {
+                categoryScore.put(parents, 1);
+            }
+        }
+        int max = 0;
+        for (Map.Entry<String, Integer> map : categoryScore.entrySet()) {
+            if (map.getValue() > max) {
+                sensitiveCategory = map.getKey();
+            }
+        }
+    }
+
+    public String getSensitiveCategory() {
+        return this.sensitiveCategory;
     }
 
     public List<String> getContainsSensitiveWordsList() {
@@ -283,9 +306,6 @@ public class TitleKeyWords {
         supersitionWordsDictionary = getWords("/supersition.txt");
     }
 
-    private void initSensitiveWordsDictionary() {
-        sensitiveWordsDictionary = new HashSet<String>();
-    }
 
     public List<String> getContainsDrugWordsList() {
         return this.containsDrugWordsList;
