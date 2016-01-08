@@ -47,5 +47,6 @@
     </orderEntry>
     <orderEntry type="module" module-name="zznetHadoop" />
     <orderEntry type="library" name="Maven: org.json:json:20090211" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.hadoop:hadoop-common:2.3.0" level="project" />
   </component>
 </module>

@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/untitled1.iml" filepath="$PROJECT_DIR$/untitled1.iml" />
       <module fileurl="file://$PROJECT_DIR$/zznetHadoop/zznetHadoop.iml" filepath="$PROJECT_DIR$/zznetHadoop/zznetHadoop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/zznetHadoop1.1/zznetHadoop1.1.iml" filepath="$PROJECT_DIR$/zznetHadoop1.1/zznetHadoop1.1.iml" />
-      <module fileurl="file://$PROJECT_DIR$/zznethadoop1.2/zznethadoop1.2.iml" filepath="$PROJECT_DIR$/zznethadoop1.2/zznethadoop1.2.iml" />
     </modules>
   </component>
 </project>

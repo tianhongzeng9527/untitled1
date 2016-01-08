@@ -17,15 +17,16 @@ public class SensitiveWord {
     public static JSONObject sensitiveWord;
     public static Map<String, String> sensitiveWordCorrespondId = new HashMap<>();
     public static Map<String, String> sensitiveWordCorrespondParents = new HashMap<>();
+
     static {
         try {
             sensitiveWord = new JSONObject("{\n" +
                     "    \"数学\": {\n" +
-                    "        \"语文\": 1,\n" +
-                    "        \"英语\": 2\n" +
+                    "        \"百度\": 1,\n" +
+                    "        \"美国\": 2\n" +
                     "    },\n" +
                     "    \"物理\": {\n" +
-                    "        \"化学\": 4,\n" +
+                    "        \"百科\": 4,\n" +
                     "        \"生物\": 3\n" +
                     "    }\n" +
                     "}");

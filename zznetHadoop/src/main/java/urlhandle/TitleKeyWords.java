@@ -30,19 +30,7 @@ public class TitleKeyWords {
     private Set<String> titleParticipleFrequency;
     private String html;
     private static Set<String> stopWordsDictionary;
-    private static Set<String> drugWordsDictionary;
-    private static Set<String> illegalWordsDictionary;
-    private static Set<String> otherSensitiveWordsDictionary;
-    private static Set<String> politicalWordsDictionary;
-    private static Set<String> sexyWordsDictionary;
-    private static Set<String> supersitionWordsDictionary;
-    private List<String> containsDrugWordsList;
-    private List<String> containsIllegalWordsList;
-    private List<String> containsOtherWordsList;
-    private List<String> containsPoliticalWordsList;
-    private List<String> containsSexyWordsList;
-    private List<String> containsSupersitionWordsList;
-    private List<String> containsSensitiveWordsList = new ArrayList<>();
+    private Set<String> containsSensitiveWordsList = new HashSet<>();
     private static boolean isInitDictionary = true;
     private String sensitiveCategory;
 
@@ -200,6 +188,7 @@ public class TitleKeyWords {
         topNumKey = new ArrayList<String>();
         timeout = Constants.TIME_OUT;
         titleParticipleFrequency = new LinkedHashSet<String>();
+//        initContainsSensitiveWordsList();
         initStopWords();
 //        initContainList();
         if (isInitDictionary) {
@@ -212,7 +201,7 @@ public class TitleKeyWords {
         setContentParticiple();
         setTitleParticipleFrequency();
         setTopNumKey();
-        initContainsSensitiveWordsList();
+//        initContainsSensitiveWordsList();
         initCategory();
     }
 
@@ -238,7 +227,7 @@ public class TitleKeyWords {
         return this.sensitiveCategory;
     }
 
-    public List<String> getContainsSensitiveWordsList() {
+    public Set<String> getContainsSensitiveWordsList() {
         return this.containsSensitiveWordsList;
     }
 
@@ -250,16 +239,6 @@ public class TitleKeyWords {
 //        initPoliticalWordsDictionary();
 //        initSexyWordsDictionary();
 //        initSupersitionWordsDictionary();
-    }
-
-    private void initContainsSensitiveWordsList() {
-//        containsSensitiveWordsList.add(containsDrugWordsList);
-//        containsSensitiveWordsList.add(containsIllegalWordsList);
-//        containsSensitiveWordsList.add(containsOtherWordsList);
-//        containsSensitiveWordsList.add(containsPoliticalWordsList);
-//        containsSensitiveWordsList.add(containsSexyWordsList);
-//        containsSensitiveWordsList.add(containsSupersitionWordsList);
-        containsSensitiveWordsList = new ArrayList<String>();
     }
 
     private void initStopWords() throws IOException {
@@ -282,52 +261,4 @@ public class TitleKeyWords {
         return words;
     }
 
-    private void initDrugWordsDictionary() throws IOException {
-        drugWordsDictionary = getWords("/drug.txt");
-    }
-
-    private void initIllegalWordsDictionary() throws IOException {
-        illegalWordsDictionary = getWords("/illegal.txt");
-    }
-
-    private void initOtherSensitiveWordsDictionary() throws IOException {
-        otherSensitiveWordsDictionary = getWords("/other.txt");
-    }
-
-    private void initPoliticalWordsDictionary() throws IOException {
-        politicalWordsDictionary = getWords("/political.txt");
-    }
-
-    private void initSexyWordsDictionary() throws IOException {
-        sexyWordsDictionary = getWords("/sexy.txt");
-    }
-
-    private void initSupersitionWordsDictionary() throws IOException {
-        supersitionWordsDictionary = getWords("/supersition.txt");
-    }
-
-
-    public List<String> getContainsDrugWordsList() {
-        return this.containsDrugWordsList;
-    }
-
-    public List<String> getContainsIllegalWordsList() {
-        return this.containsIllegalWordsList;
-    }
-
-    public List<String> getContainsOtherWordsList() {
-        return this.containsOtherWordsList;
-    }
-
-    public List<String> getContainsPoliticalWordsList() {
-        return this.containsPoliticalWordsList;
-    }
-
-    public List<String> getContainsSexyWordsList() {
-        return this.containsSexyWordsList;
-    }
-
-    public List<String> getContainsSupersitionWordsList() {
-        return this.containsSupersitionWordsList;
-    }
 }

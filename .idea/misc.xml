@@ -11,8 +11,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/zznetHadoop/pom.xml" />
-        <option value="$PROJECT_DIR$/zznetHadoop1.1/pom.xml" />
-        <option value="$PROJECT_DIR$/zznethadoop1.2/pom.xml" />
       </list>
     </option>
   </component>
@@ -22,4 +20,5 @@
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
