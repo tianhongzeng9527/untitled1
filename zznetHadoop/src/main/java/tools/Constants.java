@@ -20,4 +20,5 @@ public class Constants {
     public final static int RETURN_TYPE_SENSITIVE = 1;
     public final static int RETURN_TYPE_NORMAL = 2;
     public final static int RETURN_TYPE_NOISE = 3;
+    public final static String SEPARATOR = ";,;";
 }
