@@ -20,17 +20,18 @@ public class SensitiveWord {
 
     static {
         try {
-            sensitiveWord = new JSONObject("{\n" +
-                    "    \"数学\": {\n" +
-                    "        \"百度\": 1,\n" +
-                    "        \"美国\": 2\n" +
-                    "    },\n" +
-                    "    \"物理\": {\n" +
-                    "        \"百科\": 4,\n" +
-                    "        \"生物\": 3\n" +
-                    "    }\n" +
-                    "}");
+            URL url = new URL(Constants.SENSITIVE_URL);
+            URLConnection urlcon = url.openConnection();
+            InputStream is = urlcon.getInputStream();
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(is));
+            String s = buffer.readLine();
+            sensitiveWord = new JSONObject(s);
+            buffer.close();
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

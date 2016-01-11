@@ -15,10 +15,14 @@ public class Constants {
     public final static String SENSITIVE_CATEGORY = "sensitive";
     public final static String SENSITIVE_URL = "http://192.168.1.106:8080/zh-school/api/sensitive.do";
     public final static String CATEGORY_URL = "http://192.168.1.106:8080/zh-school/api/behavior.do";
-    public final static String WORDSDISTANCE_URL = "http://192.168.1.106:8080/tianhongzeng/wordsDistance?word1=%s&word2=%s";
+    public final static String WORDS_DISTANCE_URL = "http://192.168.1.106:8080/tianhongzeng/wordsDistance?word1=%s&word2=%s";
     public final static String SIMILARWORDS_URL = "http://192.168.1.106:8080/tianhongzeng/wordsDistance?word=%s&num=%s";
     public final static int RETURN_TYPE_SENSITIVE = 1;
     public final static int RETURN_TYPE_NORMAL = 2;
     public final static int RETURN_TYPE_NOISE = 3;
     public final static String SEPARATOR = ";,;";
+    public final static String UNABLE_CATEGORY = "unable category";
+    public final static String UNABLE_CONNECT_URL = "unable connect url";
+    public final static String PROGRAM_EXCEPTION = "program exception";
+    public final static String WRONG_FORMAT = "wrong format";
 }
