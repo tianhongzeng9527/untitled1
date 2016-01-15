@@ -20,6 +20,8 @@ import java.util.*;
 public class Category {
     public static JSONObject category;
     public static Map<String, String> categoryCorrespondId = new HashMap<>();
+    public static Map<String, String> categorySuperId = new HashMap<>();
+
     static {
         try {
             URL url = new URL(Constants.CATEGORY_URL);
@@ -43,6 +45,7 @@ public class Category {
         while (iterator.hasNext()) {
             String key = iterator.next().toString();
             JSONObject jsonObject = null;
+            String[] splits = key.split("_");
             try {
                 jsonObject = category.getJSONObject(key);
             } catch (JSONException e) {
@@ -54,10 +57,14 @@ public class Category {
                 String value = null;
                 try {
                     value = jsonObject.getString(key1);
+                    categoryCorrespondId.put(key1, value);
+                    categorySuperId.put(key1, splits[1]);
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                categoryCorrespondId.put(key1, value);
+
             }
         }
     }
@@ -68,7 +75,8 @@ public class Category {
 
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         System.out.println(categoryCorrespondId);
+        System.out.println(categorySuperId);
     }
 }

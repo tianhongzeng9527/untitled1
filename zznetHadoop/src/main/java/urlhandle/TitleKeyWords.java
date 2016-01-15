@@ -126,7 +126,7 @@ public class TitleKeyWords {
     private void setTitleParticipleFrequency() throws IOException {
         List<String> contentWords = toWords(title, new ComplexAnalyzer());
         for (String word : contentWords)
-            if (!stopWordsDictionary.contains(word))
+            if (!stopWordsDictionary.contains(word) && word.length() != 1)
                 titleParticipleFrequency.add(word);
         sortMapByValue(contentParticiple);
     }

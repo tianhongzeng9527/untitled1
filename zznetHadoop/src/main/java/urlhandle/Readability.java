@@ -37,7 +37,9 @@ public class Readability {
 
     public Readability(URL url, int timeoutMillis) throws IOException {
         super();
-        mDocument = Jsoup.parse(url, timeoutMillis);
+        mDocument = Jsoup.connect(url.toString())
+                .header("User-Agent","urlhandle.Readability-1.0.1")
+                .get();
     }
 
     public Readability(Document doc) {
