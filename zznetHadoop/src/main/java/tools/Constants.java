@@ -10,7 +10,7 @@ public class Constants {
     public final static int SENSITIVE_WORD_NUM = 1;
     public final static int LAYER = 2;
     public final static String NOISE = "noise";
-    public final static double SIMILAR_SCORE_LINE = 0.3;
+    public final static double SIMILAR_SCORE_LINE = 0.15;
     public final static double SIMILAR_SCORE_LINE_TWO = 0.1;
     public final static int TIME_OUT = 30000;
     public final static String SENSITIVE_CATEGORY = "sensitive";
@@ -26,5 +26,5 @@ public class Constants {
     public final static String UNABLE_CONNECT_URL = "unable_connect url";
     public final static String PROGRAM_EXCEPTION = "program_exception";
     public final static String WRONG_FORMAT = "wrong_format";
-    public static String time = "2016-01-11";
+    public static String time = "";
 }
