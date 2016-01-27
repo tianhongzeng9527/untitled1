@@ -27,13 +27,13 @@ public class TitleKeyWords {
     private int timeout;
     private String title;
     private String content;
-    private Set<String> titleParticipleFrequency;
+    private List<String> titleParticiple;
     private String html;
     private static Set<String> stopWordsDictionary;
     private Set<String> containsSensitiveWordsList = new HashSet<>();
     private static boolean isInitDictionary = true;
     private String sensitiveCategory;
-
+    private List<String> titleParticipleFrequency = new ArrayList<>();
     private static Logger logger = Logger.getLogger(TitleKeyWords.class);
 
     public TitleKeyWords(URL url, int topNum) {
@@ -41,13 +41,10 @@ public class TitleKeyWords {
         this.topNum = topNum;
     }
 
-    public TitleKeyWords(String html, int topNum) {
-        this.html = html;
-        this.topNum = topNum;
-    }
 
     private void setTitle() {
-        title = Jsoup.parse(claenHtml).title();
+//        System.out.println(Jsoup.parse(claenHtml).select("h1").toString().replace("<h1>","").replace("</h1>",""));
+        title = Jsoup.parse(claenHtml).select("h1").toString().replace("<h1>", "").replace("</h1>", "");
     }
 
     private void setClaenHtml() throws IOException {
@@ -65,6 +62,9 @@ public class TitleKeyWords {
 
     private void setContent() {
         content = Jsoup.parse(claenHtml).body().text();
+        int index = content.indexOf(title);
+        content = content.substring(index+title.length(),content.length());
+//        System.out.println(content);
     }
 
     private void setContentParticiple() throws IOException {
@@ -127,17 +127,18 @@ public class TitleKeyWords {
         List<String> contentWords = toWords(title, new ComplexAnalyzer());
         for (String word : contentWords)
             if (!stopWordsDictionary.contains(word) && word.length() != 1)
-                titleParticipleFrequency.add(word);
+                titleParticiple.add(word);
         sortMapByValue(contentParticiple);
     }
 
     private void setTopNumKey() {
-        if (topNum > titleParticipleFrequency.size()) {
-            topNum = titleParticipleFrequency.size();
+        if (topNum > titleParticiple.size()) {
+            topNum = titleParticiple.size();
         }
         int i = 1;
         for (String key : titleParticipleFrequency) {
             topNumKey.add(key);
+//            System.out.println(key);
             i++;
             if (topNum < i) {
                 break;
@@ -156,8 +157,9 @@ public class TitleKeyWords {
 
         });
         for (Map.Entry<String, Integer> mapping : list) {
-            if (titleParticipleFrequency.contains(mapping.getKey())) {
+            if (titleParticiple.contains(mapping.getKey())) {
                 titleParticipleFrequency.add(mapping.getKey());
+//                System.out.println(mapping.getKey()+"  "+mapping.getValue());
             }
         }
     }
@@ -187,7 +189,7 @@ public class TitleKeyWords {
         contentParticiple = new TreeMap<String, Integer>();
         topNumKey = new ArrayList<String>();
         timeout = Constants.TIME_OUT;
-        titleParticipleFrequency = new LinkedHashSet<String>();
+        titleParticiple = new ArrayList<>();
 //        initContainsSensitiveWordsList();
         initStopWords();
 //        initContainList();
@@ -196,8 +198,8 @@ public class TitleKeyWords {
             initDictionary();
         }
         setClaenHtml();
-        setContent();
         setTitle();
+        setContent();
         setContentParticiple();
         setTitleParticipleFrequency();
         setTopNumKey();

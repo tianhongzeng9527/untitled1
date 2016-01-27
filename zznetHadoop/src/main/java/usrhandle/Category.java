@@ -21,7 +21,9 @@ public class Category {
     public static JSONObject category;
     public static Map<String, String> categoryCorrespondId = new HashMap<>();
     public static Map<String, String> categorySuperId = new HashMap<>();
-
+    public static Set<String> categorySuper = new HashSet<>();
+    public static Map<String, String> superCategoryId = new HashMap<>();
+    public static String learn = "学习";
     static {
         try {
             URL url = new URL(Constants.CATEGORY_URL);
@@ -45,7 +47,12 @@ public class Category {
         while (iterator.hasNext()) {
             String key = iterator.next().toString();
             JSONObject jsonObject = null;
-            String[] splits = key.split("_");
+            String[] splits = key.split(Constants.CATEGORY_ID_SPLIT);
+            categorySuper.add(splits[0]);
+            if(learn.equals(splits[0]))
+                learn = key;
+            System.out.println(learn);
+            superCategoryId.put(splits[0],splits[1]);
             try {
                 jsonObject = category.getJSONObject(key);
             } catch (JSONException e) {
@@ -78,5 +85,7 @@ public class Category {
     public static void main(String[] args) {
         System.out.println(categoryCorrespondId);
         System.out.println(categorySuperId);
+        System.out.println(categorySuper);
+        System.out.println(superCategoryId);
     }
 }

@@ -27,8 +27,6 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="zznetHadoop" target="1.7" />
-      <module name="zznetHadoop1.1" target="1.5" />
-      <module name="zznethadoop1.2" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
